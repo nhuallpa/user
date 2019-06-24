@@ -1,5 +1,6 @@
 package com.nhuallpa.user.web.service;
 
+import com.nhuallpa.user.exception.ConflictException;
 import com.nhuallpa.user.exception.GeneralException;
 import com.nhuallpa.user.model.User;
 import com.nhuallpa.user.web.repository.UserRepository;
@@ -18,7 +19,12 @@ public class UserServiceImpl implements UserService {
   @Override
   public User create(User user) {
     if (!user.hasAllowedAge()) {
-      throw new GeneralException("El user no tiene la edad permitida");
+      throw new GeneralException("Age do not allowed");
+    }
+
+    User userExist = this.usuarioRepository.findByUser(user);
+    if (userExist != null) {
+      throw new ConflictException("User already exist");
     }
     return this.usuarioRepository.save(user);
   }
@@ -36,7 +42,7 @@ public class UserServiceImpl implements UserService {
   @Override
   public User update(User user) {
     if (!user.hasAllowedAge()) {
-      throw new GeneralException("El user no tiene la edad permitida");
+      throw new GeneralException("Age do not allowed");
     }
     Optional<User> currentUser = usuarioRepository.findById(user.getId());
     if (currentUser.isPresent()) {

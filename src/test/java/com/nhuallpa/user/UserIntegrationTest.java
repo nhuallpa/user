@@ -36,10 +36,11 @@ public class UserIntegrationTest {
   @Autowired
   private UserRepository usuarioRepository;
 
-  @Test public void createUserAllowed() throws Exception {
+  @Test
+  public void createUserAllowed() throws Exception {
     Calendar cal = Calendar.getInstance();
     cal.add(Calendar.YEAR, -28);
-    User user = new User("Nestor", DocumentType.DNI,34556777, Gender.MALE, Nationality.ARGENTINA, "mi@gmail.com", cal.getTime());
+    User user = new User("Nestor", DocumentType.DNI,32009987, Gender.MALE, Nationality.ARGENTINA, "mi@gmail.com", cal.getTime());
 
     mockMvc.perform(post("/users")
             .contentType("application/json")
@@ -51,12 +52,30 @@ public class UserIntegrationTest {
     assertEquals("mi@gmail.com", userFound.get(0).getEmail());
   }
 
-  @Test public void createAUserNotAllowedByAge() throws Exception {
+  @Test
+  public void createAUserNotAllowedByAge() throws Exception {
     User user = new User("Nestor", DocumentType.DNI,34556777, Gender.MALE, Nationality.ARGENTINA, "mi@gmail.com", Calendar.getInstance().getTime());
 
     mockMvc.perform(post("/users")
             .contentType("application/json")
             .content(objectMapper.writeValueAsString(user)))
             .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void createDuplicateUserDoNotAllowed() throws Exception {
+    Calendar cal = Calendar.getInstance();
+    cal.add(Calendar.YEAR, -28);
+    User user = new User("Nestor", DocumentType.DNI,34556777, Gender.MALE, Nationality.ARGENTINA, "mi@gmail.com", cal.getTime());
+
+    mockMvc.perform(post("/users")
+            .contentType("application/json")
+            .content(objectMapper.writeValueAsString(user)))
+            .andExpect(status().isCreated());
+
+    mockMvc.perform(post("/users")
+            .contentType("application/json")
+            .content(objectMapper.writeValueAsString(user)))
+            .andExpect(status().isConflict());
   }
 }

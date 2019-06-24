@@ -8,4 +8,5 @@ public interface UserRepositoryCustom {
 
   List<User> findUserByName(String name);
 
+  User findByUser(User user);
 }

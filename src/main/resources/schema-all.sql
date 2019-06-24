@@ -8,6 +8,6 @@ CREATE TABLE user (
     document_number INT,
     nationality INT,
     email VARCHAR(100),
-    birth DATE,
-    CONSTRAINT uc_type_doc_doc UNIQUE (document_type, document_number, nationality, gender)
+    birth DATE
+    ---CONSTRAINT uc_type_doc_doc UNIQUE (document_type, document_number, nationality, gender)
 );
