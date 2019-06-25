@@ -14,7 +14,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
   @Autowired
-  private UserRepository usuarioRepository;
+  private UserRepository userRepository;
 
   @Override
   public User create(User user) {
@@ -22,20 +22,20 @@ public class UserServiceImpl implements UserService {
       throw new GeneralException("Age do not allowed");
     }
 
-    User userExist = this.usuarioRepository.findByUser(user);
+    User userExist = this.userRepository.findByUser(user);
     if (userExist != null) {
       throw new ConflictException("User already exist");
     }
-    return this.usuarioRepository.save(user);
+    return this.userRepository.save(user);
   }
 
   public List<User> findAll() {
-    return this.usuarioRepository.findAll();
+    return this.userRepository.findAll();
   }
 
   @Override
   public User findById(Integer id) {
-    return this.usuarioRepository.findById(id).orElse(null);
+    return this.userRepository.findById(id).orElse(null);
   }
 
 
@@ -44,9 +44,9 @@ public class UserServiceImpl implements UserService {
     if (!user.hasAllowedAge()) {
       throw new GeneralException("Age do not allowed");
     }
-    Optional<User> currentUser = usuarioRepository.findById(user.getId());
+    Optional<User> currentUser = userRepository.findById(user.getId());
     if (currentUser.isPresent()) {
-      return this.usuarioRepository.save(currentUser.get().copyValues(user));
+      return this.userRepository.save(currentUser.get().copyValues(user));
     } else {
       return null;
     }
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public void deleteById(Integer id) {
-    usuarioRepository.deleteById(id);
+    userRepository.deleteById(id);
   }
 
 
