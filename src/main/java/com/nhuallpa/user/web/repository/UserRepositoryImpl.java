@@ -1,5 +1,7 @@
 package com.nhuallpa.user.web.repository;
 
+import com.nhuallpa.user.model.Gender;
+import com.nhuallpa.user.model.Nationality;
 import com.nhuallpa.user.model.User;
 import org.springframework.stereotype.Repository;
 
@@ -40,5 +42,19 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     } catch (Exception e) {
       throw e;
     }
+  }
+
+  @Override
+  public Long countByGender(Gender gender) {
+    Query query = em.createNativeQuery("SELECT COUNT(*) FROM user WHERE gender = :gender");
+    query.setParameter("gender", gender.name());
+    return ((Number)query.getSingleResult()).longValue();
+  }
+
+  @Override
+  public Long countByNationality(Nationality nationality) {
+    Query query = em.createNativeQuery("SELECT COUNT(*) FROM user WHERE nationality = :nationality");
+    query.setParameter("nationality", nationality.ordinal());
+    return ((Number)query.getSingleResult()).longValue();
   }
 }

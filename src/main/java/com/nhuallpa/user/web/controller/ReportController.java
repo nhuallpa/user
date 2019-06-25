@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/report")
+@RequestMapping("/estadisticas")
 public class ReportController {
 
 
@@ -20,10 +20,7 @@ public class ReportController {
 
   @GetMapping()
   @ResponseBody  public ResponseEntity<Report> getReport() {
-
-    Report report = reportService.generateReport();
-
-    return new ResponseEntity<>(new Report(), HttpStatus.OK);
+    return new ResponseEntity<>(reportService.generateReport(), HttpStatus.OK);
   }
 
 }

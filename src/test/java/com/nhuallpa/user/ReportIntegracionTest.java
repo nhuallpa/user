@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class ReportIntegracionTest {
 
   @Autowired
@@ -35,39 +35,37 @@ public class ReportIntegracionTest {
   private ObjectMapper objectMapper;
 
   @Test
-  public void resportEmpty() throws Exception {
-    mockMvc.perform(get("/report")
+  public void reportEmpty() throws Exception {
+    mockMvc.perform(get("/estadisticas")
             .contentType("application/json"))
-            .andExpect(jsonPath("$.totalMale", is(0)))
-            .andExpect(jsonPath("$.totalFemale", is(0)))
-            .andExpect(jsonPath("$.argentineAverage", is(0)))
+            .andExpect(jsonPath("$.cantidad_hombres", is(0)))
+            .andExpect(jsonPath("$.cantidad_mujeres", is(0)))
+            .andExpect(jsonPath("$.porcentaje_argentinos", is(0)))
             .andExpect(status().isOk());
   }
   @Test
-  public void resportOneMakeOneFemaleArgentine() throws Exception {
+  public void reportOneMakeOneFemaleArgentine() throws Exception {
 
     Calendar cal = Calendar.getInstance();
     cal.add(Calendar.YEAR, -28);
-    User userMale = new User("Nestor", DocumentType.DNI,34556777, Gender.MALE, Nationality.ARGENTINA, "mi@gmail.com", cal.getTime());
 
+    User userMale = new User("Nestor", DocumentType.DNI,34556777, Gender.MALE, Nationality.ARGENTINA, "mi@gmail.com", cal.getTime());
     mockMvc.perform(post("/users")
             .contentType("application/json")
             .content(objectMapper.writeValueAsString(userMale)))
             .andExpect(status().isCreated());
 
-    User userFemale = new User("Carla", DocumentType.DNI,33222121, Gender.FEMALE, Nationality.ARGENTINA, "ll@gmail.com", cal.getTime());
-
-
+    User userFemale = new User("Carla", DocumentType.DNI,93222121, Gender.FEMALE, Nationality.EXTRANGERO, "ll@gmail.com", cal.getTime());
     mockMvc.perform(post("/users")
             .contentType("application/json")
             .content(objectMapper.writeValueAsString(userFemale)))
             .andExpect(status().isCreated());
 
-    mockMvc.perform(get("/report")
+    mockMvc.perform(get("/estadisticas")
             .contentType("application/json"))
-            .andExpect(jsonPath("$.totalMale", is(1)))
-            .andExpect(jsonPath("$.totalFemale", is(1)))
-            .andExpect(jsonPath("$.argentineAverage", is(1)))
+            .andExpect(jsonPath("$.cantidad_hombres", is(1)))
+            .andExpect(jsonPath("$.cantidad_mujeres", is(1)))
+            .andExpect(jsonPath("$.porcentaje_argentinos", is(50)))
             .andExpect(status().isOk());
   }
 

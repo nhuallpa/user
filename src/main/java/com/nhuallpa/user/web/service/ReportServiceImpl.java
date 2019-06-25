@@ -15,10 +15,12 @@ public class ReportServiceImpl implements ReportService {
 
   @Override
   public Report generateReport() {
-    /**Long countUserFemale = userRepository.countByGender(Gender.FEMALE);
+    Long countUserFemale = userRepository.countByGender(Gender.FEMALE);
     Long countUserMale = userRepository.countByGender(Gender.MALE);
     Long countArgentine = userRepository.countByNationality(Nationality.ARGENTINA);
-    Long countAllUser = userRepository.count(); */
-    return new Report();
+    Long countAllUser = userRepository.count();
+
+    Long percentage = (countAllUser != 0) ? Math.abs(countArgentine * 100 / countAllUser) : 0;
+    return new Report(countUserMale, countUserFemale, percentage);
   }
 }
