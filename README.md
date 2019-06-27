@@ -68,6 +68,30 @@ https://person-nhuallpa.herokuapp.com/person            // Consulta listado de p
 https://person-nhuallpa.herokuapp.com/estadisticas      // Consulta el informe de personas
 ```
 
+## Performance
+
+Se agrega un cache de 1 min de expiracion en el servicio de estadisticas para soportar al menos 1200 RPS
+
+
+```
+ Global Information 
+> request count                                      12000 (OK=12000  KO=0     )
+> min response time                                      0 (OK=0      KO=-     )
+> max response time                                     45 (OK=45     KO=-     )
+> mean response time                                     2 (OK=2      KO=-     )
+> std deviation                                          3 (OK=3      KO=-     )
+> response time 50th percentile                          1 (OK=1      KO=-     )
+> response time 75th percentile                          2 (OK=2      KO=-     )
+> mean requests/sec                                1191.422 (OK=1191.422 KO=-     )
+---- Response Time Distribution ------------------------------------------------
+> t < 800 ms                                         12000 (100%)
+> 800 ms < t < 1200 ms                                   0 (  0%)
+> t > 1200 ms                                            0 (  0%)
+> failed                                                 0 (  0%)
+
+```
+Proyecto Gatling: https://github.com/nhuallpa/user-gatling-maven
+
 ## Construido con 🛠️
 
 _Herramientas utilizadas en el proyecto_
