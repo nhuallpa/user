@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhuallpa.user.model.DocumentType;
 import com.nhuallpa.user.model.Gender;
 import com.nhuallpa.user.model.Nationality;
-import com.nhuallpa.user.model.User;
+import com.nhuallpa.user.model.Person;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,16 +49,16 @@ public class ReportIntegracionTest {
     Calendar cal = Calendar.getInstance();
     cal.add(Calendar.YEAR, -28);
 
-    User userMale = new User("Nestor", DocumentType.DNI,34556777, Gender.MALE, Nationality.ARGENTINA, "mi@gmail.com", cal.getTime());
-    mockMvc.perform(post("/users")
+    Person personMale = new Person("Nestor", DocumentType.DNI,34556777, Gender.MALE, Nationality.ARGENTINA, "mi@gmail.com", cal.getTime());
+    mockMvc.perform(post("/person")
             .contentType("application/json")
-            .content(objectMapper.writeValueAsString(userMale)))
+            .content(objectMapper.writeValueAsString(personMale)))
             .andExpect(status().isCreated());
 
-    User userFemale = new User("Carla", DocumentType.DNI,93222121, Gender.FEMALE, Nationality.EXTRANGERO, "ll@gmail.com", cal.getTime());
-    mockMvc.perform(post("/users")
+    Person personFemale = new Person("Carla", DocumentType.DNI,93222121, Gender.FEMALE, Nationality.EXTRANGERO, "ll@gmail.com", cal.getTime());
+    mockMvc.perform(post("/person")
             .contentType("application/json")
-            .content(objectMapper.writeValueAsString(userFemale)))
+            .content(objectMapper.writeValueAsString(personFemale)))
             .andExpect(status().isCreated());
 
     mockMvc.perform(get("/estadisticas")

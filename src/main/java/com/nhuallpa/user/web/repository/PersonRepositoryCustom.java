@@ -2,15 +2,15 @@ package com.nhuallpa.user.web.repository;
 
 import com.nhuallpa.user.model.Gender;
 import com.nhuallpa.user.model.Nationality;
-import com.nhuallpa.user.model.User;
+import com.nhuallpa.user.model.Person;
 
 import java.util.List;
 
-public interface UserRepositoryCustom {
+public interface PersonRepositoryCustom {
 
-  List<User> findUserByName(String name);
+  List<Person> findUserByName(String name);
 
-  User findByUser(User user);
+  Person findByPerson(Person person);
 
   Long countByGender(Gender gender);
 

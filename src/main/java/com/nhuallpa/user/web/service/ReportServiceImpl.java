@@ -3,7 +3,7 @@ package com.nhuallpa.user.web.service;
 import com.nhuallpa.user.model.Gender;
 import com.nhuallpa.user.model.Nationality;
 import com.nhuallpa.user.model.Report;
-import com.nhuallpa.user.web.repository.UserRepository;
+import com.nhuallpa.user.web.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class ReportServiceImpl implements ReportService {
 
   @Autowired
-  private UserRepository userRepository;
+  private PersonRepository userRepository;
 
   @Override
   public Report generateReport() {
