@@ -58,9 +58,6 @@ public class Person {
   @JoinColumn(name = "parent_id")
   private Person parent;
 
-  @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent")
-  private List<Person> children = new ArrayList<Person>();
-
   public Person(String name, DocumentType documentType, int documentNumber,
                 Gender gender, Nationality nationality, String email, Date birth) {
     this.name = name;

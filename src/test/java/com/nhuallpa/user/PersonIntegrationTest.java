@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class PersonIntegrationTest {
 
   @Autowired
@@ -74,7 +74,7 @@ public class PersonIntegrationTest {
     nestor.setGender(Gender.MALE);
     nestor.setNationality(Nationality.ARGENTINA);
     nestor.setBirth(cal.getTime());
-    nestor.setEmail("email@gmaila.com");
+    nestor.setEmail("mi@gmail.com");
 
     milena = new Person();
     milena.setName("Milena");
@@ -110,19 +110,15 @@ public class PersonIntegrationTest {
     lautaro.setGender(Gender.MALE);
     lautaro.setNationality(Nationality.ARGENTINA);
     lautaro.setBirth(cal.getTime());
-    lautaro.setEmail("email@gmaila.com");
+    lautaro.setEmail("email@gmail.com");
 
   }
 
   @Test
   public void createUserAllowed() throws Exception {
-    Calendar cal = Calendar.getInstance();
-    cal.add(Calendar.YEAR, -28);
-    Person person = new Person("Nestor", DocumentType.DNI,32009987, Gender.MALE, Nationality.ARGENTINA, "mi@gmail.com", cal.getTime());
-
     mockMvc.perform(post("/person")
             .contentType("application/json")
-            .content(objectMapper.writeValueAsString(person)))
+            .content(objectMapper.writeValueAsString(nestor)))
             .andExpect(status().isCreated());
 
     List<Person> personFound = personRepository.findUserByName("Nestor");

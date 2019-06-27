@@ -67,9 +67,6 @@ public class PersonRepositoryTest {
     assertTrue(personParent.isPresent());
     assertNotNull(personParent.get());
     assertNull(personParent.get().getParent());
-    assertFalse(personParent.get().getChildren().isEmpty());
-
-
 
   }
 
