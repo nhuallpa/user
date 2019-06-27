@@ -48,7 +48,7 @@ Mas documentacion en https://person-nhuallpa.herokuapp.com/swagger-ui.html
 
 ## Ejecutando las pruebas ⚙️
 
-_Para ejecutar las pruebas unitarias utilizar el siguiente comando_
+_Para ejecutar las pruebas unitarias y de integración, utilizar el siguiente comando_
 
 ```
 mvn test
@@ -75,6 +75,8 @@ _Herramientas utilizadas en el proyecto_
 * [Spring Boot](https://spring.io/projects/spring-boot) - El framework web usado
 * [Maven](https://maven.apache.org/) - Manejador de dependencias
 * [Heroku](https://www.heroku.com/) - Cloud Application Platform
+* [JUnit4](https://junit.org/junit4/) - JUnit
+* [Gatling](https://gatling.io/) - Gatling Load test as code
 
 ## Autores ✒️
 
