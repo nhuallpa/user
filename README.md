@@ -44,7 +44,7 @@ _Puedes utilizar las siguientes URIs desde un browser o desde un REST Client par
 http://localhost:8080/person            // Consulta listado de personas
 http://localhost:8080/estadisticas      // Consulta el informe de personas
 ```
-Mas documentacion en https://person-nhuallpa.herokuapp.com/swagger-ui.html
+Mas documentacion en https://person-nhuallpa.herokuapp.com/doc.html
 
 ## Ejecutando las pruebas ⚙️
 
