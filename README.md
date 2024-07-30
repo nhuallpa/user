@@ -32,6 +32,15 @@ _Luego puedes empaquetar el projecto para deployar_
 mvn package
 ```
 
+
+##### Generar esquema
+
+_Ejecutar por consola desde la carpeta del proyecto_
+
+     ./gradlew flywayClean flywayMigrate -DflywayDbName=api_user
+
+
+
 _Por ultimo, puede levantar la instancia tomcat con el siguiente comando parado en la carpeta del proyecto_
 
 ```

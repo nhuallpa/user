@@ -1,24 +1,20 @@
 package com.nhuallpa.user.model;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 @Entity
-@Table(name = "person")
+@Table(name = "person", schema = "dbo")
 @Getter
 @Setter
 @NoArgsConstructor
-@ApiModel(description = "Contain the detail of user")
 public class Person {
 
   private static final int ALLOWED_AGE = 18;
@@ -28,7 +24,6 @@ public class Person {
   private Integer id;
 
   @Size(min=2, max = 100)
-  @ApiModelProperty(notes = "The name should be between  2 y 100 caracters")
   private String name;
 
   @NotNull
@@ -50,7 +45,6 @@ public class Person {
   @NotEmpty @Email
   private String email;
 
-  @ApiModelProperty(notes = "The user should be gather than 18 year aold")
   @NotNull @Past
   private Date birth;
 
