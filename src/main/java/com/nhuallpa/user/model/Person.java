@@ -46,7 +46,7 @@ public class Person {
   private String email;
 
   @NotNull @Past
-  private Date birth;
+  private Date birthdate;
 
   @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "parent_id")
@@ -60,7 +60,7 @@ public class Person {
     this.gender = gender;
     this.nationality = nationality;
     this.email = email;
-    this.birth = birth;
+    this.birthdate = birth;
   }
 
   public Person copyValues(Person person) {
@@ -70,7 +70,7 @@ public class Person {
     this.setEmail(person.getEmail());
     this.setDocumentType(person.getDocumentType());
     this.setDocumentNumber(person.getDocumentNumber());
-    this.setBirth(person.getBirth());
+    this.setBirthdate(person.getBirthdate());
     this.setParent(person.getParent());
     return this;
   }
@@ -78,7 +78,7 @@ public class Person {
   public boolean hasAllowedAge() {
     Calendar cal = Calendar.getInstance();
     cal.add(Calendar.YEAR, -ALLOWED_AGE);
-    return (this.getBirth().compareTo(cal.getTime()) <= 0);
+    return (this.getBirthdate().compareTo(cal.getTime()) <= 0);
   }
 
   public boolean isSiblingOf(Person otherPerson) {

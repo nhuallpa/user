@@ -30,12 +30,12 @@ public class PersonController {
   @GetMapping()
   @ResponseBody public ResponseEntity<List<Person>> getAll() {
 
-    List<Person> people = this.personService.findAll();
+    List<Person> personas = this.personService.findAll();
 
-    if (people.isEmpty()) {
+    if (personas.isEmpty()) {
       return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    return new ResponseEntity<>(people, HttpStatus.OK);
+    return new ResponseEntity<>(personas, HttpStatus.OK);
   }
 
   @GetMapping(value = "{id}")

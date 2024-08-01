@@ -25,8 +25,8 @@ public class WebReportService implements ReportService {
   @Cacheable
   public Report generateReport() {
     logger.info("Consulta de reporte");
-    Long countUserFemale = userRepository.countByGender(Gender.FEMALE);
-    Long countUserMale = userRepository.countByGender(Gender.MALE);
+    Long countUserFemale = userRepository.countByGender(Gender.F);
+    Long countUserMale = userRepository.countByGender(Gender.M);
     Long countArgentine = userRepository.countByNationality(Nationality.ARGENTINA);
     Long countAllUser = userRepository.count();
 

@@ -6,10 +6,6 @@ import com.nhuallpa.user.model.Report;
 import com.nhuallpa.user.web.repository.PersonRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Service;
 
 
 public class PdfReportService {
@@ -20,8 +16,8 @@ public class PdfReportService {
 
   public Report generateReport() {
     logger.info("Consulta de reporte");
-    Long countUserFemale = userRepository.countByGender(Gender.FEMALE);
-    Long countUserMale = userRepository.countByGender(Gender.MALE);
+    Long countUserFemale = userRepository.countByGender(Gender.F);
+    Long countUserMale = userRepository.countByGender(Gender.M);
     Long countArgentine = userRepository.countByNationality(Nationality.ARGENTINA);
     Long countAllUser = userRepository.count();
 

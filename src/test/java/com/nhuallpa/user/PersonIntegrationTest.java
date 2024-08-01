@@ -61,7 +61,7 @@ public class PersonIntegrationTest {
     ernesto.setName("Ernesto");
     ernesto.setDocumentType(DocumentType.DNI);
     ernesto.setDocumentNumber(99883231);
-    ernesto.setGender(Gender.MALE);
+    ernesto.setGender(Gender.M);
     ernesto.setNationality(Nationality.ARGENTINA);
     ernesto.setBirth(cal.getTime());
     ernesto.setEmail("email@gmaila.com");
@@ -71,7 +71,7 @@ public class PersonIntegrationTest {
     nestor.setName("Nestor");
     nestor.setDocumentType(DocumentType.DNI);
     nestor.setDocumentNumber(1212222);
-    nestor.setGender(Gender.MALE);
+    nestor.setGender(Gender.M);
     nestor.setNationality(Nationality.ARGENTINA);
     nestor.setBirth(cal.getTime());
     nestor.setEmail("mi@gmail.com");
@@ -80,7 +80,7 @@ public class PersonIntegrationTest {
     milena.setName("Milena");
     milena.setDocumentType(DocumentType.DNI);
     milena.setDocumentNumber(32998844);
-    milena.setGender(Gender.FEMALE);
+    milena.setGender(Gender.F);
     milena.setNationality(Nationality.ARGENTINA);
     milena.setBirth(cal.getTime());
     milena.setEmail("email@gmaila.com");
@@ -89,7 +89,7 @@ public class PersonIntegrationTest {
     candela.setName("Candela");
     candela.setDocumentType(DocumentType.DNI);
     candela.setDocumentNumber(99998844);
-    candela.setGender(Gender.FEMALE);
+    candela.setGender(Gender.F);
     candela.setNationality(Nationality.ARGENTINA);
     candela.setBirth(cal.getTime());
     candela.setEmail("email@gmaila.com");
@@ -98,7 +98,7 @@ public class PersonIntegrationTest {
     gustavo.setName("Gustavo");
     gustavo.setDocumentType(DocumentType.DNI);
     gustavo.setDocumentNumber(32244553);
-    gustavo.setGender(Gender.MALE);
+    gustavo.setGender(Gender.M);
     gustavo.setNationality(Nationality.ARGENTINA);
     gustavo.setBirth(cal.getTime());
     gustavo.setEmail("email@gmaila.com");
@@ -107,7 +107,7 @@ public class PersonIntegrationTest {
     lautaro.setName("Lautaro");
     lautaro.setDocumentType(DocumentType.DNI);
     lautaro.setDocumentNumber(64323344);
-    lautaro.setGender(Gender.MALE);
+    lautaro.setGender(Gender.M);
     lautaro.setNationality(Nationality.ARGENTINA);
     lautaro.setBirth(cal.getTime());
     lautaro.setEmail("email@gmail.com");
@@ -128,7 +128,7 @@ public class PersonIntegrationTest {
 
   @Test
   public void createAUserNotAllowedByAge() throws Exception {
-    Person person = new Person("Nestor", DocumentType.DNI,34556777, Gender.MALE, Nationality.ARGENTINA, "mi@gmail.com", Calendar.getInstance().getTime());
+    Person person = new Person("Nestor", DocumentType.DNI,34556777, Gender.M, Nationality.ARGENTINA, "mi@gmail.com", Calendar.getInstance().getTime());
 
     mockMvc.perform(post("/person")
             .contentType("application/json")
@@ -140,7 +140,7 @@ public class PersonIntegrationTest {
   public void createDuplicateUserDoNotAllowed() throws Exception {
     Calendar cal = Calendar.getInstance();
     cal.add(Calendar.YEAR, -28);
-    Person person = new Person("Nestor", DocumentType.DNI,34556777, Gender.MALE, Nationality.ARGENTINA, "mi@gmail.com", cal.getTime());
+    Person person = new Person("Nestor", DocumentType.DNI,34556777, Gender.M, Nationality.ARGENTINA, "mi@gmail.com", cal.getTime());
 
     mockMvc.perform(post("/person")
             .contentType("application/json")

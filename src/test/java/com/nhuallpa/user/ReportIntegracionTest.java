@@ -49,13 +49,13 @@ public class ReportIntegracionTest {
     Calendar cal = Calendar.getInstance();
     cal.add(Calendar.YEAR, -28);
 
-    Person personMale = new Person("Nestor", DocumentType.DNI,34556777, Gender.MALE, Nationality.ARGENTINA, "mi@gmail.com", cal.getTime());
+    Person personMale = new Person("Nestor", DocumentType.DNI,34556777, Gender.M, Nationality.ARGENTINA, "mi@gmail.com", cal.getTime());
     mockMvc.perform(post("/person")
             .contentType("application/json")
             .content(objectMapper.writeValueAsString(personMale)))
             .andExpect(status().isCreated());
 
-    Person personFemale = new Person("Carla", DocumentType.DNI,93222121, Gender.FEMALE, Nationality.EXTRANGERO, "ll@gmail.com", cal.getTime());
+    Person personFemale = new Person("Carla", DocumentType.DNI,93222121, Gender.F, Nationality.EXTRANGERO, "ll@gmail.com", cal.getTime());
     mockMvc.perform(post("/person")
             .contentType("application/json")
             .content(objectMapper.writeValueAsString(personFemale)))

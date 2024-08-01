@@ -37,7 +37,7 @@ public class PersonRepositoryTest {
     person1.setName("Carlos");
     person1.setDocumentType(DocumentType.DNI);
     person1.setDocumentNumber(1212222);
-    person1.setGender(Gender.MALE);
+    person1.setGender(Gender.M);
     person1.setNationality(Nationality.ARGENTINA);
     person1.setBirth(cal.getTime());
     person1.setEmail("email@gmaila.com");
@@ -46,7 +46,7 @@ public class PersonRepositoryTest {
     person2.setName("Milena");
     person2.setDocumentType(DocumentType.DNI);
     person2.setDocumentNumber(32998844);
-    person2.setGender(Gender.FEMALE);
+    person2.setGender(Gender.F);
     person2.setNationality(Nationality.ARGENTINA);
     person2.setBirth(cal.getTime());
     person2.setEmail("email@gmaila.com");

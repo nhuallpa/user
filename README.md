@@ -37,7 +37,7 @@ mvn package
 
 _Ejecutar por consola desde la carpeta del proyecto_
 
-     ./gradlew flywayClean flywayMigrate -DflywayDbName=api_user
+     ./gradlew flywayClean flywayMigrate
 
 
 
