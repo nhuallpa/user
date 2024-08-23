@@ -32,7 +32,7 @@ dependencies {
 group = 'com.nhuallpa'
 version = '0.0.1-SNAPSHOT'
 description = 'person'
-java.sourceCompatibility = JavaVersion.VERSION_1_8
+java.sourceCompatibility = JavaVersion.VERSION_1_9
 
 publishing {
     publications {
@@ -51,7 +51,7 @@ tasks.withType(Javadoc) {
 }
 
 
-def flywayDbName = System.properties['flywayDbName'] ?: 'api_user_db'
+def flywayDbName = System.properties['flywayDbName'] ?: 'api_person'
 println "flywayDbName[$flywayDbName]"
 def flywayServer = System.properties['flywayServer'] ?: 'localhost'
 println "flywayServer[$flywayServer]"
@@ -70,3 +70,4 @@ flyway {
     schemas = ["dbo"]
     cleanDisabled = false
 }
+targetCompatibility = JavaVersion.VERSION_1_9

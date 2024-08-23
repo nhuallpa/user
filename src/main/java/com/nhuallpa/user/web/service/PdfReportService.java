@@ -6,12 +6,17 @@ import com.nhuallpa.user.model.Report;
 import com.nhuallpa.user.web.repository.PersonRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 
-public class PdfReportService {
+@Service("PdfReportService")
+public class PdfReportService implements ReportService {
 
   private static final Logger logger = LoggerFactory.getLogger(PdfReportService.class);
+  public static final String TARGET = "pdf";
 
+  @Autowired
   private PersonRepository userRepository;
 
   public Report generateReport() {
@@ -22,6 +27,6 @@ public class PdfReportService {
     Long countAllUser = userRepository.count();
 
     Long percentage = (countAllUser != 0) ? Math.abs(countArgentine * 100 / countAllUser) : 0;
-    return new Report(countUserMale, countUserFemale, percentage);
+    return new Report(TARGET, countUserMale, countUserFemale, percentage);
   }
 }

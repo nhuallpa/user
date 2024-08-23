@@ -3,6 +3,7 @@ package com.nhuallpa.user;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhuallpa.user.model.*;
 import com.nhuallpa.user.web.repository.PersonRepository;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,9 +28,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class PersonIntegrationTest {
 
+  public static final String PERSON_URL = "/persons";
   @Autowired
   private MockMvc mockMvc;
 
@@ -49,6 +50,10 @@ public class PersonIntegrationTest {
   private Person lautaro;
 
 
+  @After
+  public void teardown() {
+    personRepository.deleteAll();
+  }
 
   @Before
   public void setUp() {
@@ -63,7 +68,7 @@ public class PersonIntegrationTest {
     ernesto.setDocumentNumber(99883231);
     ernesto.setGender(Gender.M);
     ernesto.setNationality(Nationality.ARGENTINA);
-    ernesto.setBirth(cal.getTime());
+    ernesto.setBirthdate(cal.getTime());
     ernesto.setEmail("email@gmaila.com");
 
 
@@ -73,7 +78,7 @@ public class PersonIntegrationTest {
     nestor.setDocumentNumber(1212222);
     nestor.setGender(Gender.M);
     nestor.setNationality(Nationality.ARGENTINA);
-    nestor.setBirth(cal.getTime());
+    nestor.setBirthdate(cal.getTime());
     nestor.setEmail("mi@gmail.com");
 
     milena = new Person();
@@ -82,7 +87,7 @@ public class PersonIntegrationTest {
     milena.setDocumentNumber(32998844);
     milena.setGender(Gender.F);
     milena.setNationality(Nationality.ARGENTINA);
-    milena.setBirth(cal.getTime());
+    milena.setBirthdate(cal.getTime());
     milena.setEmail("email@gmaila.com");
 
     candela = new Person();
@@ -91,7 +96,7 @@ public class PersonIntegrationTest {
     candela.setDocumentNumber(99998844);
     candela.setGender(Gender.F);
     candela.setNationality(Nationality.ARGENTINA);
-    candela.setBirth(cal.getTime());
+    candela.setBirthdate(cal.getTime());
     candela.setEmail("email@gmaila.com");
 
     gustavo = new Person();
@@ -100,7 +105,7 @@ public class PersonIntegrationTest {
     gustavo.setDocumentNumber(32244553);
     gustavo.setGender(Gender.M);
     gustavo.setNationality(Nationality.ARGENTINA);
-    gustavo.setBirth(cal.getTime());
+    gustavo.setBirthdate(cal.getTime());
     gustavo.setEmail("email@gmaila.com");
 
     lautaro = new Person();
@@ -109,14 +114,14 @@ public class PersonIntegrationTest {
     lautaro.setDocumentNumber(64323344);
     lautaro.setGender(Gender.M);
     lautaro.setNationality(Nationality.ARGENTINA);
-    lautaro.setBirth(cal.getTime());
+    lautaro.setBirthdate(cal.getTime());
     lautaro.setEmail("email@gmail.com");
 
   }
 
   @Test
   public void createUserAllowed() throws Exception {
-    mockMvc.perform(post("/person")
+    mockMvc.perform(post(PERSON_URL)
             .contentType("application/json")
             .content(objectMapper.writeValueAsString(nestor)))
             .andExpect(status().isCreated());
@@ -130,7 +135,7 @@ public class PersonIntegrationTest {
   public void createAUserNotAllowedByAge() throws Exception {
     Person person = new Person("Nestor", DocumentType.DNI,34556777, Gender.M, Nationality.ARGENTINA, "mi@gmail.com", Calendar.getInstance().getTime());
 
-    mockMvc.perform(post("/person")
+    mockMvc.perform(post(PERSON_URL)
             .contentType("application/json")
             .content(objectMapper.writeValueAsString(person)))
             .andExpect(status().isBadRequest());
@@ -142,12 +147,12 @@ public class PersonIntegrationTest {
     cal.add(Calendar.YEAR, -28);
     Person person = new Person("Nestor", DocumentType.DNI,34556777, Gender.M, Nationality.ARGENTINA, "mi@gmail.com", cal.getTime());
 
-    mockMvc.perform(post("/person")
+    mockMvc.perform(post(PERSON_URL)
             .contentType("application/json")
             .content(objectMapper.writeValueAsString(person)))
             .andExpect(status().isCreated());
 
-    mockMvc.perform(post("/person")
+    mockMvc.perform(post(PERSON_URL)
             .contentType("application/json")
             .content(objectMapper.writeValueAsString(person)))
             .andExpect(status().isConflict());
@@ -156,17 +161,17 @@ public class PersonIntegrationTest {
   @Test
   public void createRelationshipParentChildSibling() throws Exception {
 
-    mockMvc.perform(post("/person")
+    mockMvc.perform(post(PERSON_URL)
             .contentType("application/json")
             .content(objectMapper.writeValueAsString(nestor)))
             .andExpect(status().isCreated());
 
-    mockMvc.perform(post("/person")
+    mockMvc.perform(post(PERSON_URL)
             .contentType("application/json")
             .content(objectMapper.writeValueAsString(milena)))
             .andExpect(status().isCreated());
 
-    mockMvc.perform(post("/person")
+    mockMvc.perform(post(PERSON_URL)
             .contentType("application/json")
             .content(objectMapper.writeValueAsString(candela)))
             .andExpect(status().isCreated());
@@ -181,11 +186,11 @@ public class PersonIntegrationTest {
     Person secondChild = personFound.get(0);
 
 
-    mockMvc.perform(post("/person/" + parent.getId() + "/parent/" + child.getId())
+    mockMvc.perform(post(PersonIntegrationTest.PERSON_URL + "/" + parent.getId() + "/parent/" + child.getId())
             .contentType("application/json"))
             .andExpect(status().isOk());
 
-    mockMvc.perform(post("/person/" + parent.getId() + "/parent/" + secondChild.getId())
+    mockMvc.perform(post(PersonIntegrationTest.PERSON_URL + "/" + parent.getId() + "/parent/" + secondChild.getId())
             .contentType("application/json"))
             .andExpect(status().isOk());
 
@@ -199,23 +204,23 @@ public class PersonIntegrationTest {
   @Test
   public void createRelationshipParentChildCousin() throws Exception {
 
-    mockMvc.perform(post("/person")
+    mockMvc.perform(post(PERSON_URL)
             .contentType("application/json")
             .content(objectMapper.writeValueAsString(ernesto)))
             .andExpect(status().isCreated());
-    mockMvc.perform(post("/person")
+    mockMvc.perform(post(PERSON_URL)
             .contentType("application/json")
             .content(objectMapper.writeValueAsString(nestor)))
             .andExpect(status().isCreated());
-    mockMvc.perform(post("/person")
+    mockMvc.perform(post(PERSON_URL)
             .contentType("application/json")
             .content(objectMapper.writeValueAsString(milena)))
             .andExpect(status().isCreated());
-    mockMvc.perform(post("/person")
+    mockMvc.perform(post(PERSON_URL)
             .contentType("application/json")
             .content(objectMapper.writeValueAsString(gustavo)))
             .andExpect(status().isCreated());
-    mockMvc.perform(post("/person")
+    mockMvc.perform(post(PERSON_URL)
             .contentType("application/json")
             .content(objectMapper.writeValueAsString(lautaro)))
             .andExpect(status().isCreated());
@@ -225,7 +230,7 @@ public class PersonIntegrationTest {
     Person nestorFound = personFound.get(0);
     personFound = personRepository.findUserByName("Milena");
     Person milenaFound = personFound.get(0);
-    mockMvc.perform(post("/person/" + nestorFound.getId() + "/parent/" + milenaFound.getId())
+    mockMvc.perform(post(PersonIntegrationTest.PERSON_URL + "/" + nestorFound.getId() + "/parent/" + milenaFound.getId())
             .contentType("application/json"))
             .andExpect(status().isOk());
 
@@ -233,16 +238,16 @@ public class PersonIntegrationTest {
     Person gustavoFound = personFound.get(0);
     personFound = personRepository.findUserByName("Lautaro");
     Person lautaroFound = personFound.get(0);
-    mockMvc.perform(post("/person/" + gustavoFound.getId() + "/parent/" + lautaroFound.getId())
+    mockMvc.perform(post(PersonIntegrationTest.PERSON_URL + "/" +gustavoFound.getId() + "/parent/" + lautaroFound.getId())
             .contentType("application/json"))
             .andExpect(status().isOk());
 
     personFound = personRepository.findUserByName("Ernesto");
     Person ernestoFound = personFound.get(0);
-    mockMvc.perform(post("/person/" + ernestoFound.getId() + "/parent/" + gustavoFound.getId())
+    mockMvc.perform(post(PersonIntegrationTest.PERSON_URL + "/" +ernestoFound.getId() + "/parent/" + gustavoFound.getId())
             .contentType("application/json"))
             .andExpect(status().isOk());
-    mockMvc.perform(post("/person/" + ernestoFound.getId() + "/parent/" + nestorFound.getId())
+    mockMvc.perform(post(PersonIntegrationTest.PERSON_URL + "/" + ernestoFound.getId() + "/parent/" + nestorFound.getId())
             .contentType("application/json"))
             .andExpect(status().isOk());
 
@@ -257,19 +262,19 @@ public class PersonIntegrationTest {
   @Test
   public void createRelationshipParentChildUncle() throws Exception {
 
-    mockMvc.perform(post("/person")
+    mockMvc.perform(post(PERSON_URL)
             .contentType("application/json")
             .content(objectMapper.writeValueAsString(ernesto)))
             .andExpect(status().isCreated());
-    mockMvc.perform(post("/person")
+    mockMvc.perform(post(PERSON_URL)
             .contentType("application/json")
             .content(objectMapper.writeValueAsString(nestor)))
             .andExpect(status().isCreated());
-    mockMvc.perform(post("/person")
+    mockMvc.perform(post(PERSON_URL)
             .contentType("application/json")
             .content(objectMapper.writeValueAsString(milena)))
             .andExpect(status().isCreated());
-    mockMvc.perform(post("/person")
+    mockMvc.perform(post(PERSON_URL)
             .contentType("application/json")
             .content(objectMapper.writeValueAsString(gustavo)))
             .andExpect(status().isCreated());
@@ -279,7 +284,7 @@ public class PersonIntegrationTest {
     Person nestorFound = personFound.get(0);
     personFound = personRepository.findUserByName("Milena");
     Person milenaFound = personFound.get(0);
-    mockMvc.perform(post("/person/" + nestorFound.getId() + "/parent/" + milenaFound.getId())
+    mockMvc.perform(post(PersonIntegrationTest.PERSON_URL + "/" + nestorFound.getId() + "/parent/" + milenaFound.getId())
             .contentType("application/json"))
             .andExpect(status().isOk());
 
@@ -287,10 +292,10 @@ public class PersonIntegrationTest {
     Person ernestoFound = personFound.get(0);
     personFound = personRepository.findUserByName("Gustavo");
     Person gustavoFound = personFound.get(0);
-    mockMvc.perform(post("/person/" + ernestoFound.getId() + "/parent/" + gustavoFound.getId())
+    mockMvc.perform(post(PersonIntegrationTest.PERSON_URL + "/" +ernestoFound.getId() + "/parent/" + gustavoFound.getId())
             .contentType("application/json"))
             .andExpect(status().isOk());
-    mockMvc.perform(post("/person/" + ernestoFound.getId() + "/parent/" + nestorFound.getId())
+    mockMvc.perform(post(PersonIntegrationTest.PERSON_URL + "/" +ernestoFound.getId() + "/parent/" + nestorFound.getId())
             .contentType("application/json"))
             .andExpect(status().isOk());
 

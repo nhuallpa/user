@@ -11,7 +11,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
 
-@Repository
 public class PersonRepositoryImpl implements PersonRepositoryCustom {
 
   @PersistenceContext
@@ -19,14 +18,14 @@ public class PersonRepositoryImpl implements PersonRepositoryCustom {
   
   @Override
   public List<Person> findUserByName(String name) {
-    Query query = em.createNativeQuery("SELECT * FROM person WHERE name = :name", Person.class);
+    Query query = em.createNativeQuery("SELECT * FROM dbo.person WHERE name = :name", Person.class);
     query.setParameter("name", name);
     return query.getResultList();
   }
 
   @Override
   public Person findByPerson(Person person) {
-    Query query = em.createNativeQuery("SELECT * FROM person WHERE document_type = :document_type " +
+    Query query = em.createNativeQuery("SELECT * FROM dbo.person WHERE document_type = :document_type " +
                                                 "and document_number = :document_number " +
                                                 "and nationality = :nationality " +
                                                 "and gender = :gender", Person.class);
@@ -46,14 +45,14 @@ public class PersonRepositoryImpl implements PersonRepositoryCustom {
 
   @Override
   public Long countByGender(Gender gender) {
-    Query query = em.createNativeQuery("SELECT COUNT(*) FROM person WHERE gender = :gender");
+    Query query = em.createNativeQuery("SELECT COUNT(*) FROM dbo.person WHERE gender = :gender");
     query.setParameter("gender", gender.name());
     return ((Number)query.getSingleResult()).longValue();
   }
 
   @Override
   public Long countByNationality(Nationality nationality) {
-    Query query = em.createNativeQuery("SELECT COUNT(*) FROM person WHERE nationality = :nationality");
+    Query query = em.createNativeQuery("SELECT COUNT(*) FROM dbo.person WHERE nationality = :nationality");
     query.setParameter("nationality", nationality.ordinal());
     return ((Number)query.getSingleResult()).longValue();
   }

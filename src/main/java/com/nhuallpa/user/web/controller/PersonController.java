@@ -10,15 +10,16 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
-@RequestMapping("/person")
 public class PersonController {
 
+  public static final String PERSONS = "/persons";
   @Autowired
   private PersonService personService;
 
-  @PostMapping()
+  @PostMapping(PERSONS)
   @ResponseBody public ResponseEntity<Person> create(@Valid @RequestBody Person person) {
     Person personCreado = personService.create(person);
     if (personCreado == null) {
@@ -27,7 +28,7 @@ public class PersonController {
     return new ResponseEntity<>(personCreado, HttpStatus.CREATED);
   }
 
-  @GetMapping()
+  @GetMapping(PERSONS)
   @ResponseBody public ResponseEntity<List<Person>> getAll() {
 
     List<Person> personas = this.personService.findAll();
@@ -38,8 +39,8 @@ public class PersonController {
     return new ResponseEntity<>(personas, HttpStatus.OK);
   }
 
-  @GetMapping(value = "{id}")
-  @ResponseBody public ResponseEntity<Person> getById(@PathVariable("id") Integer id) {
+  @GetMapping(value = PERSONS+"/{id}")
+  @ResponseBody public ResponseEntity<Person> getById(@PathVariable("id") UUID id) {
 
     Person person = personService.findById(id);
     if (person == null) {
@@ -49,8 +50,8 @@ public class PersonController {
     return new ResponseEntity<>(person, HttpStatus.OK);
   }
 
-  @DeleteMapping(value = "{id}")
-  public ResponseEntity<Void> deleteById(@PathVariable("id") Integer id) {
+  @DeleteMapping(value = PERSONS+"/{id}")
+  public ResponseEntity<Void> deleteById(@PathVariable("id") UUID id) {
     Person person = personService.findById(id);
     if (person == null) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -60,7 +61,7 @@ public class PersonController {
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
-  @PutMapping
+  @PutMapping(PERSONS)
   public ResponseEntity<Person> update(@RequestBody Person person) {
 
     Person currentPerson = personService.update(person);
@@ -70,8 +71,9 @@ public class PersonController {
     return new ResponseEntity<>(currentPerson, HttpStatus.OK);
   }
 
-  @PostMapping(value = "{id}/parent/{idChild}")
-  public ResponseEntity<Person> setParent(@PathVariable("id") Integer id, @PathVariable("idChild") Integer idChild) {
+  @PostMapping(value = PERSONS+"/{id}/parent/{idChild}")
+  public ResponseEntity<Person> setParent(@PathVariable("id") UUID id,
+                                          @PathVariable("idChild") UUID idChild) {
 
     Person person = personService.findById(id);
     if (person == null) {

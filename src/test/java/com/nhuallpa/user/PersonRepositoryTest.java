@@ -39,7 +39,7 @@ public class PersonRepositoryTest {
     person1.setDocumentNumber(1212222);
     person1.setGender(Gender.M);
     person1.setNationality(Nationality.ARGENTINA);
-    person1.setBirth(cal.getTime());
+    person1.setBirthdate(cal.getTime());
     person1.setEmail("email@gmaila.com");
 
     Person person2 = new Person();
@@ -48,7 +48,7 @@ public class PersonRepositoryTest {
     person2.setDocumentNumber(32998844);
     person2.setGender(Gender.F);
     person2.setNationality(Nationality.ARGENTINA);
-    person2.setBirth(cal.getTime());
+    person2.setBirthdate(cal.getTime());
     person2.setEmail("email@gmaila.com");
 
     person2.setParent(person1);

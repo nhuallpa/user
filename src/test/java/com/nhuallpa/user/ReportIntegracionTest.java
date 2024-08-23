@@ -5,6 +5,9 @@ import com.nhuallpa.user.model.DocumentType;
 import com.nhuallpa.user.model.Gender;
 import com.nhuallpa.user.model.Nationality;
 import com.nhuallpa.user.model.Person;
+import com.nhuallpa.user.web.controller.ReportController;
+import com.nhuallpa.user.web.repository.PersonRepository;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,19 +31,29 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class ReportIntegracionTest {
 
+  public static final String PERSON_URL = "/persons";
   @Autowired
   private MockMvc mockMvc;
 
   @Autowired
   private ObjectMapper objectMapper;
 
+  @Autowired
+  private PersonRepository personRepository;
+
+  @After
+  public void teardown() {
+    personRepository.deleteAll();
+  }
+
   @Test
   public void reportEmpty() throws Exception {
-    mockMvc.perform(get("/estadisticas")
+    mockMvc.perform(get(ReportController.STATS_URL)
+                    .param("format", "web")
             .contentType("application/json"))
-            .andExpect(jsonPath("$.cantidad_hombres", is(0)))
-            .andExpect(jsonPath("$.cantidad_mujeres", is(0)))
-            .andExpect(jsonPath("$.porcentaje_argentinos", is(0)))
+            .andExpect(jsonPath("$.totalMale", is(0)))
+            .andExpect(jsonPath("$.totalFemale", is(0)))
+            .andExpect(jsonPath("$.argentinePercentage", is(0)))
             .andExpect(status().isOk());
   }
   @Test
@@ -50,22 +63,23 @@ public class ReportIntegracionTest {
     cal.add(Calendar.YEAR, -28);
 
     Person personMale = new Person("Nestor", DocumentType.DNI,34556777, Gender.M, Nationality.ARGENTINA, "mi@gmail.com", cal.getTime());
-    mockMvc.perform(post("/person")
+    mockMvc.perform(post(PERSON_URL)
             .contentType("application/json")
             .content(objectMapper.writeValueAsString(personMale)))
             .andExpect(status().isCreated());
 
     Person personFemale = new Person("Carla", DocumentType.DNI,93222121, Gender.F, Nationality.EXTRANGERO, "ll@gmail.com", cal.getTime());
-    mockMvc.perform(post("/person")
+    mockMvc.perform(post(PERSON_URL)
             .contentType("application/json")
             .content(objectMapper.writeValueAsString(personFemale)))
             .andExpect(status().isCreated());
 
-    mockMvc.perform(get("/estadisticas")
+    mockMvc.perform(get(ReportController.STATS_URL)
+                    .param("format", "web")
             .contentType("application/json"))
-            .andExpect(jsonPath("$.cantidad_hombres", is(1)))
-            .andExpect(jsonPath("$.cantidad_mujeres", is(1)))
-            .andExpect(jsonPath("$.porcentaje_argentinos", is(50)))
+            .andExpect(jsonPath("$.totalMale", is(1)))
+            .andExpect(jsonPath("$.totalFemale", is(1)))
+            .andExpect(jsonPath("$.argentinePercentage", is(50)))
             .andExpect(status().isOk());
   }
 

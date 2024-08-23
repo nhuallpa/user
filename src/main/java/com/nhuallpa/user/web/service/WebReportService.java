@@ -12,11 +12,12 @@ import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Service
+@Service("WebReportService")
 @CacheConfig(cacheNames = {"report"})
 public class WebReportService implements ReportService {
 
   private static final Logger logger = LoggerFactory.getLogger(WebReportService.class);
+  public static final String target = "web";
 
   @Autowired
   private PersonRepository userRepository;
@@ -31,6 +32,6 @@ public class WebReportService implements ReportService {
     Long countAllUser = userRepository.count();
 
     Long percentage = (countAllUser != 0) ? Math.abs(countArgentine * 100 / countAllUser) : 0;
-    return new Report(countUserMale, countUserFemale, percentage);
+    return new Report(target, countUserMale, countUserFemale, percentage);
   }
 }

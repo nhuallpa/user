@@ -23,14 +23,13 @@ Apache Maven 3.6.0
 _Clonar el repositorio en la maquina local e instalar las dependencias con maven_
 
 ```
-mvn install
+./g install
 ```
 
-_Luego puedes empaquetar el projecto para deployar_
+_Run local containers with docker-compose and open other terminal to run the setup script for localstack:
 
-```
-mvn package
-```
+    docker-compose up
+    ./script/setup-localstack.sh
 
 
 ##### Generar esquema
@@ -40,11 +39,10 @@ _Ejecutar por consola desde la carpeta del proyecto_
      ./gradlew flywayClean flywayMigrate
 
 
-
 _Por ultimo, puede levantar la instancia tomcat con el siguiente comando parado en la carpeta del proyecto_
 
 ```
-java -jar target/person-0.0.1-SNAPSHOT.jar
+./gradlew buildRun
 ```
 
 _Puedes utilizar las siguientes URIs desde un browser o desde un REST Client para probarlo_

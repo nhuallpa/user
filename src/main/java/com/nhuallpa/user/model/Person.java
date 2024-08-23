@@ -4,11 +4,13 @@ package com.nhuallpa.user.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Table(name = "person", schema = "dbo")
@@ -20,8 +22,8 @@ public class Person {
   private static final int ALLOWED_AGE = 18;
 
   @Id
-  @GeneratedValue
-  private Integer id;
+  @Type(type="pg-uuid")
+  private UUID id;
 
   @Size(min=2, max = 100)
   private String name;

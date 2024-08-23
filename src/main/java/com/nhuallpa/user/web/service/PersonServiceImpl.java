@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class PersonServiceImpl implements PersonService {
@@ -25,17 +28,19 @@ public class PersonServiceImpl implements PersonService {
 
     Person personExist = this.personRepository.findByPerson(person);
     if (personExist != null) {
-      throw new ConflictException("Person already exist");
+      throw new ConflictException(String.format("Person %s already exist", person.getName()));
     }
+    person.setId(UUID.randomUUID());
     return this.personRepository.save(person);
   }
 
   public List<Person> findAll() {
-    return this.personRepository.findAll();
+    return StreamSupport.stream(this.personRepository.findAll().spliterator(), false)
+            .collect(Collectors.toList());
   }
 
   @Override
-  public Person findById(Integer id) {
+  public Person findById(UUID id) {
     return this.personRepository.findById(id).orElse(null);
   }
 
@@ -54,13 +59,13 @@ public class PersonServiceImpl implements PersonService {
   }
 
   @Override
-  public void deleteById(Integer id) {
+  public void deleteById(UUID id) {
     personRepository.deleteById(id);
   }
 
 
   @Override
-  public Relationship getRelationship(Integer id, Integer idOther) {
+  public Relationship getRelationship(UUID id, UUID idOther) {
 
     Person aPerson = this.findById(id);
     Person otherPerson = this.findById(idOther);
