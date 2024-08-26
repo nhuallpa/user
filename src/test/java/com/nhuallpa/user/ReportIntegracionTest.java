@@ -1,12 +1,12 @@
 package com.nhuallpa.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nhuallpa.user.model.DocumentType;
-import com.nhuallpa.user.model.Gender;
-import com.nhuallpa.user.model.Nationality;
-import com.nhuallpa.user.model.Person;
-import com.nhuallpa.user.web.controller.ReportController;
-import com.nhuallpa.user.web.repository.PersonRepository;
+import com.nhuallpa.person.domain.model.DocumentType;
+import com.nhuallpa.person.domain.model.Gender;
+import com.nhuallpa.person.domain.model.Nationality;
+import com.nhuallpa.person.domain.model.Person;
+import com.nhuallpa.person.infrastructure.controller.ReportController;
+import com.nhuallpa.person.domain.repository.PersonRepository;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
