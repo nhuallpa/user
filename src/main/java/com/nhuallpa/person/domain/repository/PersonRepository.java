@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface PersonRepository extends CrudRepository<Person, UUID>, PersonRepositoryCustom {
+public interface PersonRepository extends CrudRepository<Person, UUID>, PersonCustomRepository {
 
   Long countByGender(Gender gender);
 

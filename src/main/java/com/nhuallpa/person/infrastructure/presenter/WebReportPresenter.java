@@ -1,6 +1,7 @@
 package com.nhuallpa.person.infrastructure.presenter;
 
 import com.nhuallpa.person.domain.model.Report;
+import com.nhuallpa.person.infrastructure.controller.ReportPresenter;
 import com.nhuallpa.person.infrastructure.response.ReportReponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +16,7 @@ public class WebReportPresenter implements ReportPresenter {
   public static final String target = "web";
 
   @Override
-  public ReportReponse generateReport(Report report) {
+  public ReportReponse generateReport(Report data) {
     logger.info("Generate report in HTML and drop in a CDN");
     return ReportReponse.builder()
             .target("web")

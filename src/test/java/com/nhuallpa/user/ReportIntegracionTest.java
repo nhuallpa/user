@@ -5,7 +5,7 @@ import com.nhuallpa.person.domain.model.DocumentType;
 import com.nhuallpa.person.domain.model.Gender;
 import com.nhuallpa.person.domain.model.Nationality;
 import com.nhuallpa.person.domain.model.Person;
-import com.nhuallpa.person.infrastructure.controller.ReportController;
+import com.nhuallpa.person.infrastructure.controller.PersonReportController;
 import com.nhuallpa.person.domain.repository.PersonRepository;
 import org.junit.After;
 import org.junit.Test;
@@ -48,7 +48,7 @@ public class ReportIntegracionTest {
 
   @Test
   public void reportEmpty() throws Exception {
-    mockMvc.perform(get(ReportController.STATS_URL)
+    mockMvc.perform(get(PersonReportController.STATS_URL)
                     .param("format", "web")
             .contentType("application/json"))
             .andExpect(jsonPath("$.totalMale", is(0)))
@@ -74,7 +74,7 @@ public class ReportIntegracionTest {
             .content(objectMapper.writeValueAsString(personFemale)))
             .andExpect(status().isCreated());
 
-    mockMvc.perform(get(ReportController.STATS_URL)
+    mockMvc.perform(get(PersonReportController.STATS_URL)
                     .param("format", "web")
             .contentType("application/json"))
             .andExpect(jsonPath("$.totalMale", is(1)))

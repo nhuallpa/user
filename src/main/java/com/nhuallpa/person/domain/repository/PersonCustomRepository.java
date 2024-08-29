@@ -7,7 +7,7 @@ import com.nhuallpa.person.domain.model.Person;
 import java.util.List;
 import java.util.Optional;
 
-public interface PersonRepositoryCustom {
+public interface PersonCustomRepository {
 
   List<Person> findUserByName(String name);
 

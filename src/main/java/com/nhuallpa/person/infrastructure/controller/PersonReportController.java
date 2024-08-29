@@ -2,7 +2,6 @@ package com.nhuallpa.person.infrastructure.controller;
 
 import com.nhuallpa.person.domain.model.Report;
 import com.nhuallpa.person.domain.service.ReportAnalyzerService;
-import com.nhuallpa.person.infrastructure.presenter.ReportPresenter;
 import com.nhuallpa.person.infrastructure.response.ReportReponse;
 
 import org.springframework.beans.factory.BeanFactory;
@@ -19,7 +18,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Controller
-public class ReportController {
+public class PersonReportController {
 
   public static final String STATS_URL = "/stats";
 
@@ -35,7 +34,7 @@ public class ReportController {
 
   @GetMapping(STATS_URL)
   @ResponseBody
-  public ResponseEntity<ReportReponse> getReport(@RequestParam(name = "target") String target) {
+  public ResponseEntity<ReportReponse> generate(@RequestParam(name = "target") String target) {
 
     ReportPresenter service = selectPresenterProcess(target);
     Report report = reportAnalyzerService.generateReport();

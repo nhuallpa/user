@@ -1,6 +1,7 @@
 package com.nhuallpa.person.infrastructure.presenter;
 
 import com.nhuallpa.person.domain.model.Report;
+import com.nhuallpa.person.infrastructure.controller.ReportPresenter;
 import com.nhuallpa.person.infrastructure.response.ReportReponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +16,7 @@ public class PdfReportPersenter implements ReportPresenter {
   private static final Logger logger = LoggerFactory.getLogger(PdfReportPersenter.class);
   public static final String TARGET = "pdf";
 
-  public ReportReponse generateReport(Report report) {
+  public ReportReponse generateReport(Report data) {
     logger.info("Generate report in PDF format and drop in a CDN");
     return ReportReponse.builder()
             .target(TARGET)
